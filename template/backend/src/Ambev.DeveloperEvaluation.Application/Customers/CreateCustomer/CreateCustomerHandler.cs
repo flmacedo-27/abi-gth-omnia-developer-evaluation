@@ -45,8 +45,8 @@ public class CreateCustomerHandler : IRequestHandler<CreateCustomerCommand, Crea
 
         var customer = _mapper.Map<Customer>(command);
         
-        var createdUser = await _customerRepository.CreateAsync(customer, cancellationToken);
-        var result = _mapper.Map<CreateCustomerResult>(createdUser);
+        var createdCustomer = await _customerRepository.CreateAsync(customer, cancellationToken);
+        var result = _mapper.Map<CreateCustomerResult>(createdCustomer);
         return result;
     }
 }

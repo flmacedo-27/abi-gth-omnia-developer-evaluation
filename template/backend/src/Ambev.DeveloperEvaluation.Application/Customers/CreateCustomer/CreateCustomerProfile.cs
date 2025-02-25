@@ -9,7 +9,7 @@ namespace Ambev.DeveloperEvaluation.Application.Customers.CreateCustomer;
 public class CreateCustomerProfile : Profile
 {
     /// <summary>
-    /// Initializes the mappings for CreateUser operation
+    /// Initializes the mappings for CreateCustomer operation
     /// </summary>
     public CreateCustomerProfile()
     {

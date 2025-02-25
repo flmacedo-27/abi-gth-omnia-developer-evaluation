@@ -3,9 +3,9 @@
 public interface ICustomer
 {
     /// <summary>
-    /// Gets the unique identifier of the user.
+    /// Gets the unique identifier of the customer.
     /// </summary>
-    /// <returns>The user's ID as a string.</returns>
+    /// <returns>The customer's ID as a string.</returns>
     public string Id { get; }
 
     /// <summary>

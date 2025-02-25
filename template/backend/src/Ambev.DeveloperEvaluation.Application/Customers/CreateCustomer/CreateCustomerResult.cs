@@ -12,6 +12,6 @@ public class CreateCustomerResult
     /// <summary>
     /// Gets or sets the unique identifier of the newly created customer.
     /// </summary>
-    /// <value>A GUID that uniquely identifies the created user in the system.</value>
+    /// <value>A GUID that uniquely identifies the created customer in the system.</value>
     public Guid Id { get; set; }
 }

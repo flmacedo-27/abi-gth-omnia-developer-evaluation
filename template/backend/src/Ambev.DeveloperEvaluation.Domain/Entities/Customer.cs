@@ -40,7 +40,7 @@ public class Customer : BaseEntity, ICustomer
     /// Gets the customer's current status.
     /// Indicates whether the customer is active, inactive in the system.
     /// </summary>
-    public UserStatus Status { get; set; }
+    public CustomerStatus Status { get; set; }
 
     /// <summary>
     /// Gets the date and time when the customer was created.
@@ -55,13 +55,13 @@ public class Customer : BaseEntity, ICustomer
     /// <summary>
     /// Gets the unique identifier of the customer.
     /// </summary>
-    /// <returns>The user's ID as a string.</returns>
+    /// <returns>The customer's ID as a string.</returns>
     string ICustomer.Id => Id.ToString();
 
     /// <summary>
-    /// Gets the username.
+    /// Gets the cpf or cnpj.
     /// </summary>
-    /// <returns>The username.</returns>
+    /// <returns>The cpf or cnpj.</returns>
     string ICustomer.CpfCnpj => CpfCnpj;
 
     /// <summary>
@@ -97,7 +97,7 @@ public class Customer : BaseEntity, ICustomer
     /// </summary>
     public void Activate()
     {
-        Status = UserStatus.Active;
+        Status = CustomerStatus.Active;
         UpdatedAt = DateTime.UtcNow;
     }
 
@@ -107,7 +107,7 @@ public class Customer : BaseEntity, ICustomer
     /// </summary>
     public void Deactivate()
     {
-        Status = UserStatus.Inactive;
+        Status = CustomerStatus.Inactive;
         UpdatedAt = DateTime.UtcNow;
     }
 }
