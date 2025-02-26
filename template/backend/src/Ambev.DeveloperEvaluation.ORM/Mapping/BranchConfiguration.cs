@@ -10,19 +10,19 @@ public class BranchConfiguration : IEntityTypeConfiguration<Branch>
     {
         builder.ToTable("Branchs");
 
-        builder.HasKey(u => u.Id);
-        builder.Property(u => u.Id).HasColumnType("uuid").HasDefaultValueSql("gen_random_uuid()");
+        builder.HasKey(b => b.Id);
+        builder.Property(b => b.Id).HasColumnType("uuid").HasDefaultValueSql("gen_random_uuid()");
 
-        builder.Property(u => u.Name).IsRequired().HasMaxLength(100);
-        builder.Property(u => u.Code).IsRequired().HasMaxLength(10);
-        builder.Property(u => u.City).IsRequired().HasMaxLength(100);
-        builder.Property(u => u.State).IsRequired().HasMaxLength(100);
-        builder.Property(u => u.Country).IsRequired().HasMaxLength(100);
-        builder.Property(u => u.PostalCode).IsRequired().HasMaxLength(9);
-        builder.Property(u => u.Phone).HasMaxLength(20);
-        builder.Property(u => u.Email).HasMaxLength(100);
+        builder.Property(b => b.Name).IsRequired().HasMaxLength(100);
+        builder.Property(b => b.Code).IsRequired().HasMaxLength(10);
+        builder.Property(b => b.City).IsRequired().HasMaxLength(100);
+        builder.Property(b => b.State).IsRequired().HasMaxLength(100);
+        builder.Property(b => b.Country).IsRequired().HasMaxLength(100);
+        builder.Property(b => b.PostalCode).IsRequired().HasMaxLength(9);
+        builder.Property(b => b.Phone).HasMaxLength(20);
+        builder.Property(b => b.Email).HasMaxLength(100);
 
-        builder.Property(u => u.Status)
+        builder.Property(b => b.Status)
             .HasConversion<string>()
             .HasMaxLength(20);
     }

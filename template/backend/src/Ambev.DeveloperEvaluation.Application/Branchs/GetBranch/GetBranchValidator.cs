@@ -8,7 +8,7 @@ namespace Ambev.DeveloperEvaluation.Application.Branchs.GetBranch;
 public class GetBranchValidator : AbstractValidator<GetBranchCommand>
 {
     /// <summary>
-    /// Initializes validation rules for DeleteBranchCommand
+    /// Initializes validation rules for GetBranchCommand
     /// </summary>
     public GetBranchValidator()
     {
