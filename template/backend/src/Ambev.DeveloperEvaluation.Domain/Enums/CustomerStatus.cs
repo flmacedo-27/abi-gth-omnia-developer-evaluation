@@ -4,5 +4,5 @@ public enum CustomerStatus
 {
     Unknown = 0,
     Active,
-    Inactive,
+    Inactive
 }

@@ -4,5 +4,5 @@ public enum BranchStatus
 {
     Unknown = 0,
     Active,
-    Inactive,
+    Inactive
 }
