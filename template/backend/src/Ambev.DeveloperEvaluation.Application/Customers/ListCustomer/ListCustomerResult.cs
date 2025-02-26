@@ -2,6 +2,9 @@
 
 namespace Ambev.DeveloperEvaluation.Application.Customers.ListCustomer;
 
+/// <summary>
+/// Response model for ListCustomer operation
+/// </summary>
 public class ListCustomerResult
 {
     /// <summary>

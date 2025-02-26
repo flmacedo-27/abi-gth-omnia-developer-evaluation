@@ -6,12 +6,12 @@ namespace Ambev.DeveloperEvaluation.Application.Customers.CreateCustomer;
 /// <summary>
 /// Validator for CreateCustomerCommand that defines validation rules for customer creation command.
 /// </summary>
-public class CreateCustomerCommandValidator : AbstractValidator<CreateCustomerCommand>
+public class CreateCustomerValidator : AbstractValidator<CreateCustomerCommand>
 {
     /// <summary>
-    /// Initializes a new instance of the CreateCustomerCommandValidator with defined validation rules.
+    /// Initializes a new instance of the CreateCustomerValidator with defined validation rules.
     /// </summary>
-    public CreateCustomerCommandValidator()
+    public CreateCustomerValidator()
     {
         RuleFor(customer => customer.Fullname)
             .NotEmpty().WithMessage("The Full name is required.")

@@ -33,7 +33,7 @@ public class CreateCustomerHandler : IRequestHandler<CreateCustomerCommand, Crea
     /// <returns>The created customer details</returns>
     public async Task<CreateCustomerResult> Handle(CreateCustomerCommand command, CancellationToken cancellationToken)
     {
-        var validator = new CreateCustomerCommandValidator();
+        var validator = new CreateCustomerValidator();
         var validationResult = await validator.ValidateAsync(command, cancellationToken);
 
         if (!validationResult.IsValid)

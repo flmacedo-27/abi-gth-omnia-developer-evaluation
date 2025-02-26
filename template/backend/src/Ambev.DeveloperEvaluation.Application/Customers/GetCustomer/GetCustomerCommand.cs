@@ -2,6 +2,9 @@
 
 namespace Ambev.DeveloperEvaluation.Application.Customers.GetCustomer;
 
+/// <summary>
+/// Command for retrieving a customer by their ID
+/// </summary>
 public record GetCustomerCommand : IRequest<GetCustomerResult>
 {
     /// <summary>

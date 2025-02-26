@@ -2,6 +2,9 @@
 
 namespace Ambev.DeveloperEvaluation.Application.Customers.GetCustomer;
 
+/// <summary>
+/// Response model for GetCustomer operation
+/// </summary>
 public class GetCustomerResult
 {
     /// <summary>
