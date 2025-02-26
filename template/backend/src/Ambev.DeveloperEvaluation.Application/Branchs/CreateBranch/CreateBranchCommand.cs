@@ -8,7 +8,7 @@ namespace Ambev.DeveloperEvaluation.Application.Branchs.CreateBranch;
 /// </summary>
 /// <remarks>
 /// This command is used to capture the required data for creating a branch, 
-/// including fullname, cpf_cnpj, email and phone number. 
+/// including name, code, city, state, country, postal code, phone number, and email. 
 /// It implements <see cref="IRequest{TResponse}"/> to initiate the request 
 /// that returns a <see cref="CreateBranchResult"/>.
 /// 
