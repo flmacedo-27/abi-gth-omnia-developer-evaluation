@@ -23,7 +23,7 @@ public interface ICustomerRepository
     Task<List<Customer>> GetAsync(CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Retrieves a cutomer by their unique identifier
+    /// Retrieves a customer by their unique identifier
     /// </summary>
     /// <param name="id">The unique identifier of the customer</param>
     /// <param name="cancellationToken">Cancellation token</param>
@@ -31,7 +31,7 @@ public interface ICustomerRepository
     Task<Customer?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Retrieves a cutomer by their cpf or cnpj
+    /// Retrieves a customer by their cpf or cnpj
     /// </summary>
     /// <param name="cpfcnpj">The cpf or cnpj of the customer</param>
     /// <param name="cancellationToken">Cancellation token</param>

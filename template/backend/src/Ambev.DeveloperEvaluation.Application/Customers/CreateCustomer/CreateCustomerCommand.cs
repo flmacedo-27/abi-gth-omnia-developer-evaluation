@@ -13,7 +13,7 @@ namespace Ambev.DeveloperEvaluation.Application.Customers.CreateCustomer;
 /// that returns a <see cref="CreateCustomerResult"/>.
 /// 
 /// The data provided in this command is validated using the 
-/// <see cref="CreateCustomerCommandValidator"/> which extends 
+/// <see cref="CreateCustomerValidator"/> which extends 
 /// <see cref="AbstractValidator{T}"/> to ensure that the fields are correctly 
 /// populated and follow the required rules.
 /// </remarks>
@@ -41,7 +41,7 @@ public class CreateCustomerCommand : IRequest<CreateCustomerResult>
 
     public ValidationResultDetail Validate()
     {
-        var validator = new CreateCustomerCommandValidator();
+        var validator = new CreateCustomerValidator();
         var result = validator.Validate(this);
         return new ValidationResultDetail
         {

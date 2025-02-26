@@ -1,12 +1,12 @@
-﻿/// <summary>
+﻿namespace Ambev.DeveloperEvaluation.Application.Customers.CreateCustomer;
+
+/// <summary>
 /// Represents the response returned after successfully creating a new customer.
 /// </summary>
 /// <remarks>
 /// This response contains the unique identifier of the newly created customer,
 /// which can be used for subsequent operations or reference.
 /// </remarks>
-namespace Ambev.DeveloperEvaluation.Application.Customers.CreateCustomer;
-
 public class CreateCustomerResult
 {
     /// <summary>
