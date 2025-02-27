@@ -68,18 +68,24 @@ public class CustomersController : BaseController
     /// <param name="cancellationToken">Cancellation token</param>
     /// <returns>The customer list</returns>
     [HttpGet]
-    [ProducesResponseType(typeof(ApiResponseWithData<List<ListCustomerResponse>>), StatusCodes.Status201Created)]
+    [ProducesResponseType(typeof(ApiResponseWithData<PaginatedResponse<ListCustomerResponse>>), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status400BadRequest)]
-    public async Task<IActionResult> ListCustomer(CancellationToken cancellationToken)
+    public async Task<IActionResult> ListCustomer(
+        [FromQuery] int pageNumber = 1,
+        [FromQuery] int pageSize = 10,
+        CancellationToken cancellationToken = default)
     {
-        var command = new ListCustomerCommand();
+        var command = new ListCustomerCommand { PageNumber = pageNumber, PageSize = pageSize };
         var response = await _mediator.Send(command, cancellationToken);
 
-        return Created(string.Empty, new ApiResponseWithData<List<ListCustomerResponse>>
+        return Ok(new PaginatedResponse<ListCustomerResponse>
         {
             Success = true,
-            Message = "Customer list successfully",
-            Data = _mapper.Map<List<ListCustomerResponse>>(response)
+            Message = "Customer list retrieved successfully",
+            Data = _mapper.Map<List<ListCustomerResponse>>(response),
+            CurrentPage = response.CurrentPage,
+            TotalPages = response.TotalPages,
+            TotalCount = response.TotalCount
         });
     }
 

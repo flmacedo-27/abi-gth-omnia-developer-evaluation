@@ -1,4 +1,5 @@
-﻿using Ambev.DeveloperEvaluation.Domain.Repositories;
+﻿using Ambev.DeveloperEvaluation.Domain.Common;
+using Ambev.DeveloperEvaluation.Domain.Repositories;
 using AutoMapper;
 using MediatR;
 
@@ -7,7 +8,7 @@ namespace Ambev.DeveloperEvaluation.Application.Customers.ListCustomer;
 /// <summary>
 /// Handler for processing ListCustomerCommand requests
 /// </summary>
-public class ListCustomerHandler : IRequestHandler<ListCustomerCommand, List<ListCustomerResult>>
+public class ListCustomerHandler : IRequestHandler<ListCustomerCommand, PaginatedList<ListCustomerResult>>
 {
     private readonly ICustomerRepository _customerRepository;
     private readonly IMapper _mapper;
@@ -30,12 +31,18 @@ public class ListCustomerHandler : IRequestHandler<ListCustomerCommand, List<Lis
     /// <param name="request">The ListCustomer command</param>
     /// <param name="cancellationToken">Cancellation token</param>
     /// <returns>The customer list</returns>
-    public async Task<List<ListCustomerResult>> Handle(ListCustomerCommand request, CancellationToken cancellationToken)
+    public async Task<PaginatedList<ListCustomerResult>> Handle(ListCustomerCommand request, CancellationToken cancellationToken)
     {
         var customerList = await _customerRepository.GetAsync(cancellationToken);
         if (customerList.Count == 0)
             throw new KeyNotFoundException("The customer list is empty.");
 
-        return _mapper.Map<List<ListCustomerResult>>(customerList);
+        var customerListResult = _mapper.Map<List<ListCustomerResult>>(customerList);
+
+        return PaginatedList<ListCustomerResult>.Create(
+            customerListResult,
+            request.PageNumber,
+            request.PageSize
+        );
     }
 }

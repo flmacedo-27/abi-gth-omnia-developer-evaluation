@@ -70,18 +70,24 @@ public class SalesController : BaseController
     /// <param name="cancellationToken">Cancellation token</param>
     /// <returns>The sales list</returns>
     [HttpGet]
-    [ProducesResponseType(typeof(ApiResponseWithData<List<ListSaleResponse>>), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(ApiResponseWithData<PaginatedResponse<ListSaleResponse>>), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status400BadRequest)]
-    public async Task<IActionResult> ListSale(CancellationToken cancellationToken)
+    public async Task<IActionResult> ListSale(
+        [FromQuery] int pageNumber = 1,
+        [FromQuery] int pageSize = 10,
+        CancellationToken cancellationToken = default)
     {
-        var command = new ListSaleCommand();
+        var command = new ListSaleCommand { PageNumber = pageNumber, PageSize = pageSize };
         var response = await _mediator.Send(command, cancellationToken);
 
-        return Ok(new ApiResponseWithData<List<ListSaleResponse>>
+        return Ok(new PaginatedResponse<ListSaleResponse>
         {
             Success = true,
-            Message = "Sales list retrieved successfully",
-            Data = _mapper.Map<List<ListSaleResponse>>(response)
+            Message = "Sale list retrieved successfully",
+            Data = _mapper.Map<List<ListSaleResponse>>(response),
+            CurrentPage = response.CurrentPage,
+            TotalPages = response.TotalPages,
+            TotalCount = response.TotalCount
         });
     }
 

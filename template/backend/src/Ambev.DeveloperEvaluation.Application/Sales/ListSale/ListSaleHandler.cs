@@ -1,4 +1,5 @@
-﻿using Ambev.DeveloperEvaluation.Domain.Repositories;
+﻿using Ambev.DeveloperEvaluation.Domain.Common;
+using Ambev.DeveloperEvaluation.Domain.Repositories;
 using AutoMapper;
 using MediatR;
 
@@ -7,7 +8,7 @@ namespace Ambev.DeveloperEvaluation.Application.Sales.ListSale;
 /// <summary>
 /// Handler for processing ListSaleCommand requests
 /// </summary>
-public class ListSaleHandler : IRequestHandler<ListSaleCommand, List<ListSaleResult>>
+public class ListSaleHandler : IRequestHandler<ListSaleCommand, PaginatedList<ListSaleResult>>
 {
     private readonly ISaleRepository _saleRepository;
     private readonly IMapper _mapper;
@@ -29,12 +30,18 @@ public class ListSaleHandler : IRequestHandler<ListSaleCommand, List<ListSaleRes
     /// <param name="request">The ListSale command</param>
     /// <param name="cancellationToken">Cancellation token</param>
     /// <returns>The sale list</returns>
-    public async Task<List<ListSaleResult>> Handle(ListSaleCommand request, CancellationToken cancellationToken)
+    public async Task<PaginatedList<ListSaleResult>> Handle(ListSaleCommand request, CancellationToken cancellationToken)
     {
         var saleList = await _saleRepository.GetAsync(cancellationToken);
         if (saleList.Count == 0)
             throw new KeyNotFoundException("The sale list is empty.");
 
-        return _mapper.Map<List<ListSaleResult>>(saleList);
+        var saleListResult = _mapper.Map<List<ListSaleResult>>(saleList);
+        
+        return PaginatedList<ListSaleResult>.Create(
+            saleListResult,
+            request.PageNumber,
+            request.PageSize
+        );
     }
 }

@@ -1,4 +1,5 @@
-﻿using Ambev.DeveloperEvaluation.Domain.Repositories;
+﻿using Ambev.DeveloperEvaluation.Domain.Common;
+using Ambev.DeveloperEvaluation.Domain.Repositories;
 using AutoMapper;
 using MediatR;
 
@@ -7,7 +8,7 @@ namespace Ambev.DeveloperEvaluation.Application.Branchs.ListBranch;
 /// <summary>
 /// Handler for processing ListBranchCommand requests
 /// </summary>
-public class ListBranchHandler : IRequestHandler<ListBranchCommand, List<ListBranchResult>>
+public class ListBranchHandler : IRequestHandler<ListBranchCommand, PaginatedList<ListBranchResult>>
 {
     private readonly IBranchRepository _branchRepository;
     private readonly IMapper _mapper;
@@ -30,13 +31,18 @@ public class ListBranchHandler : IRequestHandler<ListBranchCommand, List<ListBra
     /// <param name="request">The ListBranch command</param>
     /// <param name="cancellationToken">Cancellation token</param>
     /// <returns>The branch list</returns>
-    public async Task<List<ListBranchResult>> Handle(ListBranchCommand request, CancellationToken cancellationToken)
+    public async Task<PaginatedList<ListBranchResult>> Handle(ListBranchCommand request, CancellationToken cancellationToken)
     {
         var branchList = await _branchRepository.GetAsync(cancellationToken);
         if (branchList.Count == 0)
             throw new KeyNotFoundException("The brranch list is empty.");
 
-        return _mapper.Map<List<ListBranchResult>>(branchList);
-    }
+        var branchListResult = _mapper.Map<List<ListBranchResult>>(branchList);
 
+        return PaginatedList<ListBranchResult>.Create(
+            branchListResult,
+            request.PageNumber,
+            request.PageSize
+        );
+    }
 }
