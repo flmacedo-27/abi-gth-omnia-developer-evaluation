@@ -68,18 +68,24 @@ public class BranchsController : BaseController
     /// <param name="cancellationToken">Cancellation token</param>
     /// <returns>The branch list</returns>
     [HttpGet]
-    [ProducesResponseType(typeof(ApiResponseWithData<List<ListBranchResponse>>), StatusCodes.Status201Created)]
+    [ProducesResponseType(typeof(ApiResponseWithData<PaginatedResponse<ListBranchResponse>>), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status400BadRequest)]
-    public async Task<IActionResult> ListBranch(CancellationToken cancellationToken)
+    public async Task<IActionResult> ListBranch(
+        [FromQuery] int pageNumber = 1,
+        [FromQuery] int pageSize = 10,
+        CancellationToken cancellationToken = default)
     {
-        var command = new ListBranchCommand();
+        var command = new ListBranchCommand { PageNumber = pageNumber, PageSize = pageSize };
         var response = await _mediator.Send(command, cancellationToken);
 
-        return Created(string.Empty, new ApiResponseWithData<List<ListBranchResponse>>
+        return Ok(new PaginatedResponse<ListBranchResponse>
         {
             Success = true,
-            Message = "Branch list successfully",
-            Data = _mapper.Map<List<ListBranchResponse>>(response)
+            Message = "Branch list retrieved successfully",
+            Data = _mapper.Map<List<ListBranchResponse>>(response),
+            CurrentPage = response.CurrentPage,
+            TotalPages = response.TotalPages,
+            TotalCount = response.TotalCount
         });
     }
 

@@ -68,18 +68,24 @@ public class ProductsController : BaseController
     /// <param name="cancellationToken">Cancellation token</param>
     /// <returns>The product list</returns>
     [HttpGet]
-    [ProducesResponseType(typeof(ApiResponseWithData<List<ListProductResponse>>), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(ApiResponseWithData<PaginatedResponse<ListProductResponse>>), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status400BadRequest)]
-    public async Task<IActionResult> ListProduct(CancellationToken cancellationToken)
+    public async Task<IActionResult> ListProduct(
+        [FromQuery] int pageNumber = 1,
+        [FromQuery] int pageSize = 10,
+        CancellationToken cancellationToken = default)
     {
-        var command = new ListProductCommand();
+        var command = new ListProductCommand { PageNumber = pageNumber, PageSize = pageSize };
         var response = await _mediator.Send(command, cancellationToken);
 
-        return Ok(new ApiResponseWithData<List<ListProductResponse>>
+        return Ok(new PaginatedResponse<ListProductResponse>
         {
             Success = true,
             Message = "Product list retrieved successfully",
-            Data = _mapper.Map<List<ListProductResponse>>(response)
+            Data = _mapper.Map<List<ListProductResponse>>(response),
+            CurrentPage = response.CurrentPage,
+            TotalPages = response.TotalPages,
+            TotalCount = response.TotalCount
         });
     }
 

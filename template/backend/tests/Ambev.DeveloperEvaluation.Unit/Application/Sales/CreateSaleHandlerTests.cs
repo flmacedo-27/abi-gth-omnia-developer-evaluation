@@ -10,7 +10,7 @@ using FluentValidation;
 using NSubstitute;
 using Xunit;
 
-namespace Ambev.DeveloperEvaluation.Unit.Application;
+namespace Ambev.DeveloperEvaluation.Unit.Application.Sales;
 
 /// <summary>
 /// Contains unit tests for the <see cref="CreateSaleHandler"/> class.
@@ -77,7 +77,7 @@ public class CreateSaleHandlerTests
         var act = () => _handler.Handle(command, CancellationToken.None);
 
         // Then
-        await act.Should().ThrowAsync<FluentValidation.ValidationException>();
+        await act.Should().ThrowAsync<ValidationException>();
     }
 
     /// <summary>
