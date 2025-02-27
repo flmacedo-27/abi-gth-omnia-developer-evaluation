@@ -1,4 +1,5 @@
-﻿using Ambev.DeveloperEvaluation.Domain.Validation;
+﻿using Ambev.DeveloperEvaluation.Domain.Repositories;
+using Ambev.DeveloperEvaluation.Domain.Validation;
 using FluentValidation;
 
 namespace Ambev.DeveloperEvaluation.Application.SalesItem.CreateSalesItem;
@@ -8,12 +9,16 @@ namespace Ambev.DeveloperEvaluation.Application.SalesItem.CreateSalesItem;
 /// </summary>
 public class CreateSaleItemValidator : AbstractValidator<CreateSaleItemCommand>
 {
+    private readonly IProductRepository _productRepository;
+
     /// <summary>
     /// Initializes a new instance of the CreateSaleCommandValidator with defined validation rules.
     /// </summary>
-    public CreateSaleItemValidator()
+    public CreateSaleItemValidator(IProductRepository productRepository)
     {
-        RuleFor(item => item.ProductId).SetValidator(new ProductIdValidator());
+        _productRepository = productRepository;
+        
+        RuleFor(item => item.ProductId).SetValidator(new ProductIdValidator(_productRepository));
 
         RuleFor(item => item.Quantity)
             .GreaterThan(0).WithMessage("The quantity value must be greater than 0.")

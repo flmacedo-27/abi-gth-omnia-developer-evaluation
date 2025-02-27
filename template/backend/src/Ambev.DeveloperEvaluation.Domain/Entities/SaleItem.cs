@@ -2,6 +2,7 @@
 using Ambev.DeveloperEvaluation.Common.Validation;
 using Ambev.DeveloperEvaluation.Domain.Common;
 using Ambev.DeveloperEvaluation.Domain.Validation;
+using FluentValidation;
 
 namespace Ambev.DeveloperEvaluation.Domain.Entities;
 
@@ -11,6 +12,8 @@ namespace Ambev.DeveloperEvaluation.Domain.Entities;
 /// </summary>
 public class SaleItem : BaseEntity, ISaleItem
 {
+    private readonly IValidator<SaleItem> _validator;
+
     /// <summary>
     /// Gets the sales item productId.
     /// It must be a valid productId that exists in the product table.
@@ -62,8 +65,9 @@ public class SaleItem : BaseEntity, ISaleItem
     /// <returns>The sale's item ID as a string.</returns>
     string ISaleItem.Id => Id.ToString();
 
-    public SaleItem()
+    public SaleItem(IValidator<SaleItem> validator)
     {
+        _validator = validator;
         CreatedAt = DateTime.UtcNow;
     }
 
@@ -77,8 +81,7 @@ public class SaleItem : BaseEntity, ISaleItem
     /// </returns>
     public ValidationResultDetail Validate()
     {
-        var validator = new SaleItemValidator();
-        var result = validator.Validate(this);
+        var result = _validator.Validate(this);
         return new ValidationResultDetail
         {
             IsValid = result.IsValid,

@@ -1,5 +1,4 @@
 ﻿using Ambev.DeveloperEvaluation.Application.SalesItem.CreateSalesItem;
-using Ambev.DeveloperEvaluation.Common.Validation;
 using MediatR;
 
 namespace Ambev.DeveloperEvaluation.Application.Sales.CreateSale;
@@ -49,15 +48,4 @@ public class CreateSaleCommand : IRequest<CreateSaleResult>
     /// Sets the total sale amount of the sale to be created.
     /// </summary>
     public decimal TotalSaleAmount { get; set; }
-
-    public ValidationResultDetail Validate()
-    {
-        var validator = new CreateSaleValidator();
-        var result = validator.Validate(this);
-        return new ValidationResultDetail
-        {
-            IsValid = result.IsValid,
-            Errors = result.Errors.Select(o => (ValidationErrorDetail)o)
-        };
-    }
 }

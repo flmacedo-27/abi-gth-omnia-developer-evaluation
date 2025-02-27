@@ -11,10 +11,7 @@ public class CustomerIdValidator : AbstractValidator<Guid>
     public CustomerIdValidator(ICustomerRepository customerRepository)
     {
         _customerRepository = customerRepository;
-    }
 
-    public CustomerIdValidator()
-    {
         RuleFor(customerId => customerId)
             .NotEmpty().WithMessage("The customerId is required.")
             .MustAsync(BeValidCustomerId).WithMessage("The CustomerId must be a valid ID that exists in the customer table.");
@@ -23,7 +20,6 @@ public class CustomerIdValidator : AbstractValidator<Guid>
     private async Task<bool> BeValidCustomerId(Guid customerId, CancellationToken cancellationToken)
     {
         Customer? customer = await _customerRepository.GetByIdAsync(customerId, cancellationToken);
-
         return customer != null;
     }
 }

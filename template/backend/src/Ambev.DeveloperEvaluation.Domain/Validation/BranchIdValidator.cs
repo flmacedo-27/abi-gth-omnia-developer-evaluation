@@ -11,10 +11,7 @@ public class BranchIdValidator : AbstractValidator<Guid>
     public BranchIdValidator(IBranchRepository branchRepository)
     {
         _branchRepository = branchRepository;
-    }
 
-    public BranchIdValidator()
-    {
         RuleFor(branchId => branchId)
             .NotEmpty().WithMessage("The branchId is required.")
             .MustAsync(BeValidBranchId).WithMessage("The BranchId must be a valid ID that exists in the branch table.");

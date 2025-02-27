@@ -1,7 +1,7 @@
 ﻿using Ambev.DeveloperEvaluation.Common.Security;
 using Ambev.DeveloperEvaluation.Common.Validation;
 using Ambev.DeveloperEvaluation.Domain.Common;
-using Ambev.DeveloperEvaluation.Domain.Validation;
+using FluentValidation;
 
 namespace Ambev.DeveloperEvaluation.Domain.Entities;
 
@@ -11,6 +11,8 @@ namespace Ambev.DeveloperEvaluation.Domain.Entities;
 /// </summary>
 public class Sale : BaseEntity, ISale
 {
+    private readonly IValidator<Sale> _validator;
+
     /// <summary>
     /// Gets the sale's number.
     /// Must not be null.
@@ -75,8 +77,9 @@ public class Sale : BaseEntity, ISale
     /// <summary>
     /// Initializes a new instance of the Sale class.
     /// </summary>
-    public Sale()
+    public Sale(IValidator<Sale> validator)
     {
+        _validator = validator;
         CreatedAt = DateTime.UtcNow;
     }
 
@@ -90,8 +93,7 @@ public class Sale : BaseEntity, ISale
     /// </returns>
     public ValidationResultDetail Validate()
     {
-        var validator = new SaleValidator();
-        var result = validator.Validate(this);
+        var result = _validator.Validate(this);
         return new ValidationResultDetail
         {
             IsValid = result.IsValid,
