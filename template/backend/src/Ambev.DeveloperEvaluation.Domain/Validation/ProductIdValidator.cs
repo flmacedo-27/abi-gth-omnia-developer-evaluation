@@ -11,10 +11,7 @@ public class ProductIdValidator : AbstractValidator<Guid>
     public ProductIdValidator(IProductRepository productRepository)
     {
         _productRepository = productRepository;
-    }
 
-    public ProductIdValidator()
-    {
         RuleFor(productId => productId)
             .NotEmpty().WithMessage("O productId is required.")
             .MustAsync(BeValidProductId).WithMessage("The ProductId must be a valid ID that exists in the product table.");

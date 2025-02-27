@@ -1,13 +1,18 @@
 ﻿using Ambev.DeveloperEvaluation.Domain.Entities;
+using Ambev.DeveloperEvaluation.Domain.Repositories;
 using FluentValidation;
 
 namespace Ambev.DeveloperEvaluation.Domain.Validation;
 
 public class SaleItemValidator : AbstractValidator<SaleItem>
 {
-    public SaleItemValidator()
+    private readonly IProductRepository _productRepository;
+
+    public SaleItemValidator(IProductRepository productRepository)
     {
-        RuleFor(item => item.ProductId).SetValidator(new ProductIdValidator());
+        _productRepository = productRepository;
+
+        RuleFor(item => item.ProductId).SetValidator(new ProductIdValidator(_productRepository));
 
         RuleFor(item => item.Quantity)
             .GreaterThan(0).WithMessage("The quantity value must be greater than 0.")

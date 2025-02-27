@@ -12,6 +12,7 @@ namespace Ambev.DeveloperEvaluation.Application.Sales.CreateSale;
 public class CreateSaleHandler : IRequestHandler<CreateSaleCommand, CreateSaleResult>
 {
     private readonly ISaleRepository _saleRepository;
+    private readonly IValidator<CreateSaleCommand> _validator;
     private readonly IMapper _mapper;
 
     /// <summary>
@@ -19,9 +20,12 @@ public class CreateSaleHandler : IRequestHandler<CreateSaleCommand, CreateSaleRe
     /// </summary>
     /// <param name="saleRepository">The sale repository</param>
     /// <param name="mapper">The AutoMapper instance</param>
-    public CreateSaleHandler(ISaleRepository saleRepository, IMapper mapper)
+    public CreateSaleHandler(ISaleRepository saleRepository,
+        IValidator<CreateSaleCommand> validator,
+        IMapper mapper)
     {
         _saleRepository = saleRepository;
+        _validator = validator;
         _mapper = mapper;
     }
 
@@ -33,8 +37,7 @@ public class CreateSaleHandler : IRequestHandler<CreateSaleCommand, CreateSaleRe
     /// <returns>The created sale details</returns>
     public async Task<CreateSaleResult> Handle(CreateSaleCommand command, CancellationToken cancellationToken)
     {
-        var validator = new CreateSaleValidator();
-        var validationResult = await validator.ValidateAsync(command, cancellationToken);
+        var validationResult = await _validator.ValidateAsync(command, cancellationToken);
 
         if (!validationResult.IsValid)
             throw new ValidationException(validationResult.Errors);
